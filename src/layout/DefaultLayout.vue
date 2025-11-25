@@ -2,6 +2,7 @@
 import Menu from "@/components/navMenu/Menu.vue"
 import { onMounted } from 'vue';
 import TopHeader from "@/components/topHeader/TopHeader.vue"
+import HeaderTabs from "@/layout/HeaderTabs.vue"
 
 </script>
 <template>
@@ -14,6 +15,7 @@ import TopHeader from "@/components/topHeader/TopHeader.vue"
           <TopHeader />
         </el-header>
         <el-main>
+          <HeaderTabs />
           <router-view />
         </el-main>
       </el-container>
