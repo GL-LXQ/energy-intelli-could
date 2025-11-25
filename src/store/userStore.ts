@@ -31,11 +31,21 @@ export const useUserStore = defineStore('userStore', () => {
       }
     }
 
+    //清空个人信息
+    const clearUserInfo = () => {
+      token.value = ""
+      roles.value = []
+      username.value = ""
+      menulist.value = []
+      sessionStorage.clear()
+    }
+
     return {
       token,
       roles,
       username,
       menulist,
-      login
+      login,
+      clearUserInfo
     }
 })

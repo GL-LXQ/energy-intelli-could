@@ -11,4 +11,10 @@ router.beforeEach((to) => {
   if ( to.path === "/login" && userStore.token) {
     return {path: "/"}
   }
+
+  //如果跳转路由需要权限，检查用户角色是否符合
+  if(to.meta?.accessRoles && !userStore.roles.some( role => (to.meta.accessRoles as string[]).includes(role))){
+      //用户角色不符合，不允许跳转,跳转至首页
+      return {path: "/"}
+  }
 })
