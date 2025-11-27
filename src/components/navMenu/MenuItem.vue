@@ -16,6 +16,8 @@ export default defineComponent({
     const handleClick = (item:MenuItemType) => {
       // 点击菜单项，添加到tabList
       tabStore.add2TabList(item)
+      //把当前正在点击的item传到tabStore
+      tabStore.setCurrentClickItem(item.name)
     }
     return {handleClick}
   }
