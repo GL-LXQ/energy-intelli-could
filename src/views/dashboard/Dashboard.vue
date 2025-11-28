@@ -8,6 +8,97 @@ import remain from "@/assets/remain.png"
 import total from "@/assets/total.png"
 import money from "@/assets/money.png"
 import daily from "@/assets/daily.png"
+import * as echarts from 'echarts';
+import {ref,onMounted} from 'vue'
+import { useCharts } from "@/hooks/useCharts"
+import {getChartDataApi} from "@/api/dashboard"
+
+const chart1 = ref(null)
+const chart2 = ref(null)
+const chartOptionsList = ref<any>([])
+//图表Options数据
+
+//set图表Options数据
+const getChartData = async () => {
+  const chartOptions:any = ref({
+  title: {
+    text: '电量统计'
+  },
+  tooltip: {
+    trigger: 'axis'
+  },
+  legend: {
+    data: []
+  },
+  xAxis: {
+    type: 'category',
+    boundaryGap: false,
+    data: ['13:00', '14:00', '15:00', '16:00', '17:00', '18:00', '19:00', '20:00', '21:00']
+  },
+  yAxis: {
+    type: 'value',
+      axisLabel:{
+      formatter: '{value}kw'
+    }
+  },
+  series: [//
+    {
+      name: '',//
+      type: 'line',
+      data: [],//
+      lineStyle: {
+        width: 2
+      },
+      itemStyle: {
+        color: "purple",
+        shadowBlur: 2,
+        shadowColor: 'rgba(0, 255, 0,0.5)'
+      },
+      smooth: true
+    },
+    {
+      name: '',
+      type: 'line',
+      data: [],
+      lineStyle: {
+        width: 2
+      },
+      itemStyle: {
+        color: "lightgreen",
+        shadowBlur: 2,
+        shadowColor: 'rgba(0, 255,  0, 0.5)'
+      },
+      smooth: true
+    },
+    {
+      name: '',
+      type: 'line',
+      data: [],
+      lineStyle: {
+        width: 2
+      },
+      itemStyle: {
+        color: "skyblue",
+        shadowBlur: 2,
+        shadowColor: 'rgba(0, 255, 0, 0.5)'
+      },
+      smooth: true
+    }
+  ]
+})
+  const {data: {list}} = await getChartDataApi()
+  chartOptionsList.value = list
+  chartOptions.value.legend.data = chartOptionsList.value.map((item:any) => item.name)
+  for(let i = 0; i < chartOptions.value.series.length; i++){
+    chartOptions.value.series[i].name = chartOptionsList.value[i]?.name
+    chartOptions.value.series[i].data = chartOptionsList.value[i]?.data
+    }
+  return chartOptions
+}
+
+// 绘制图表
+useCharts(chart2, getChartData)
+
 </script>
 <template>
   <el-row :gutter="20">
@@ -126,6 +217,7 @@ import daily from "@/assets/daily.png"
               </div>
             </div>
         </el-card>
+        <!-- 常用功能卡片 -->
         <el-card class="often-use-card mt">
           <!-- 标题 -->
           <template #header>
@@ -160,6 +252,23 @@ import daily from "@/assets/daily.png"
             </li>
           </ul>
         </el-card>
+        <!-- 能源统计卡片 -->
+         <el-card class="energy-count-card mt">
+          <!-- 标题 -->
+          <template #header>
+            <div class="card-header">
+              <h4>能源统计</h4>
+            </div>
+          </template>
+          <el-row>
+            <el-col :span="6">
+              <div ref="chart1" style="width: 100%; height: 400px;">图表1</div>
+            </el-col>
+            <el-col :span="18">
+              <div ref="chart2" style="width: 100%; height: 400px;">图表2</div>
+            </el-col>
+          </el-row>
+         </el-card>
       </el-col>
 
       <el-col :span="6">

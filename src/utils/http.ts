@@ -3,6 +3,7 @@ interface ResponseData{
   code: number,
   msg: any,
   message: string
+  data: any
 }
 const get = (url:string, params?:any):Promise<ResponseData> => {
   return service.get(url, {params})
