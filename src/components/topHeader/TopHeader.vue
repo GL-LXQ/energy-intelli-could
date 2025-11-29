@@ -55,7 +55,7 @@ const handleCommand = (command: string)=> {
 .header {
   height: 60px;
   padding: 0 20px;
-  background-color: #1f1e1e;
+  background-color: #bab9b9;
 
   .personal-pannel {
     display: flex;

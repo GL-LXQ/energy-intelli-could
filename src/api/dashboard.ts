@@ -5,6 +5,16 @@ const getChartDataApi = () => {
   return get('/chartData')
 }
 
+function getChartDataApi2(){
+    return get('/chartData2')
+}
+
+function getChartDataApi3(){
+    return get('/chartData3')
+}
+
 export {
-  getChartDataApi
+  getChartDataApi,
+  getChartDataApi2,
+  getChartDataApi3
 }
